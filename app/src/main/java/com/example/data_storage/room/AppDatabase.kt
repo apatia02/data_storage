@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.example.data_storage.room.entity.AddressDto
 import com.example.data_storage.room.entity.UserDto
 
-@Database(entities = [UserDto::class, AddressDto::class], version = 1)
+@Database(entities = [UserDto::class, AddressDto::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 }

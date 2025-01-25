@@ -3,6 +3,8 @@ package com.example.data_storage.test
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.data_storage.room.AppDatabase
 import com.example.data_storage.room.UserDao
 import com.example.data_storage.room.entity.AddressDto
@@ -12,17 +14,24 @@ import com.example.data_storage.room.entity.UserWithAddressDto
 
 class UserDaoTest(context: Context) {
 
+    private val migration12 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE users ADD COLUMN phone_number TEXT NOT NULL DEFAULT ''")
+        }
+    }
+
     private val db: AppDatabase = Room.databaseBuilder(
         context.applicationContext,
         AppDatabase::class.java,
         "user_database"
-    ).build()
+    ).addMigrations(migration12)
+        .build()
 
     private val userDao: UserDao = db.userDao()
 
     fun runTest() {
         // 1. Вставка нового пользователя
-        val user = UserDto(name = "John Doe", email = "john.doe@example.com")
+        val user = UserDto(userId = 1, name = "Kick Sick", email = "kick.sick@example.com", phoneNumber = "123-456-7890")
         userDao.insertUser(user)
         Log.d(TAG, "After inserting user: ${getAllUsers()}")
 
