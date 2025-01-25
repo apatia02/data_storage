@@ -55,10 +55,10 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == REQUEST_STORAGE_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d("MainActivity", "Permission granted")
+                Log.d(MAIN_ACTIVITY_TAG, "Permission granted")
                 performFileOperations()
             } else {
-                Log.e("MainActivity", "Permission denied")
+                Log.e(MAIN_ACTIVITY_TAG, "Permission denied")
             }
         }
     }
@@ -75,14 +75,14 @@ class MainActivity : AppCompatActivity() {
         val user = User("John Doe", 28, "john.doe@example.com")
         lifecycleScope.launch {
             dataStoreHelper.saveUser(user)
-            Log.d("DataStore", "User saved: $user")
+            Log.d(DATA_STORE_TAG, "User saved: $user")
             val savedDataStoreUser = dataStoreHelper.getUser()
-            Log.d("DataStore", "Saved User: $savedDataStoreUser")
+            Log.d(DATA_STORE_TAG, "Saved User: $savedDataStoreUser")
         }
         sharedPreferencesHelper.saveUser(user)
-        Log.d("Shared", "User saved: $user")
+        Log.d(SHARED_TAG, "User saved: $user")
         val savedSharedUser = sharedPreferencesHelper.getUser()
-        Log.d("Shared", "Shared User: $savedSharedUser")
+        Log.d(SHARED_TAG, "Shared User: $savedSharedUser")
     }
 
     private fun initFileHelperWorks() {
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         val internalContent = "Hello from Internal Storage"
         fileHelper.saveToInternalStorage(internalFileName, internalContent)
         val internalReadContent = fileHelper.readFromInternalStorage(internalFileName)
-        Log.d("MainActivity", "Internal File Content: $internalReadContent")
+        Log.d(MAIN_ACTIVITY_TAG, "Internal File Content: $internalReadContent")
 
         if (!checkStoragePermissions()) {
             requestStoragePermissions()
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             mediaStoreHelper.saveToSharedStorage(fileName, content)
             val retrievedContent = mediaStoreHelper.readFromSharedStorage(fileName)
-            Log.d("MainActivity", "Content from MediaStore: $retrievedContent")
+            Log.d(MAIN_ACTIVITY_TAG, "Content from MediaStore: $retrievedContent")
         }
     }
 
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
             val externalContent = "Hello from External Storage"
             fileHelper.saveToExternalStorage(externalFileName, externalContent)
             val externalReadContent = fileHelper.readFromExternalStorage(externalFileName)
-            Log.d("MainActivity", "External File Content: $externalReadContent")
+            Log.d(MAIN_ACTIVITY_TAG, "External File Content: $externalReadContent")
         } else {
             initMediaStoreHelperWorks()
         }
@@ -158,5 +158,8 @@ class MainActivity : AppCompatActivity() {
 
     private companion object {
         const val REQUEST_STORAGE_PERMISSION = 100
+        const val MAIN_ACTIVITY_TAG = "MainActivity"
+        const val SHARED_TAG = "Shared"
+        const val DATA_STORE_TAG = "Data store"
     }
 }

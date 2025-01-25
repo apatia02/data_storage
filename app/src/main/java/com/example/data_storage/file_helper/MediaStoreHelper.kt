@@ -27,13 +27,13 @@ class MediaStoreHelper(private val context: Context) {
             try {
                 resolver.openOutputStream(uri)?.use { outputStream ->
                     outputStream.write(content.toByteArray())
-                    Log.d("MediaStoreHelper", "File saved to external storage: $uri")
+                    Log.d(LOG_TAG, "File saved to external storage: $uri")
                 }
             } catch (e: IOException) {
-                Log.e("MediaStoreHelper", "Failed to save file to MediaStore", e)
+                Log.e(LOG_TAG, "Failed to save file to MediaStore", e)
             }
         } else {
-            Log.e("MediaStoreHelper", "Failed to create URI in MediaStore")
+            Log.e(LOG_TAG, "Failed to create URI in MediaStore")
         }
     }
 
@@ -56,12 +56,16 @@ class MediaStoreHelper(private val context: Context) {
             if (it.moveToFirst()) {
                 val columnIndex = it.getColumnIndex(MediaStore.Files.FileColumns.DATA)
                 val filePath = it.getString(columnIndex)
-                Log.d("MediaStoreHelper", "File path from MediaStore: $filePath")
+                Log.d(LOG_TAG, "File path from MediaStore: $filePath")
                 return File(filePath).readText() // Читаем содержимое файла
             }
         }
 
-        Log.e("MediaStoreHelper", "File not found in MediaStore")
+        Log.e(LOG_TAG, "File not found in MediaStore")
         return null
+    }
+
+    private companion object {
+        const val LOG_TAG = "MediaStoreHelper"
     }
 }

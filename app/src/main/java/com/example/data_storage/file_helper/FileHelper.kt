@@ -12,9 +12,9 @@ class FileHelper(private val context: Context) {
         try {
             val file = File(context.filesDir, fileName)
             file.writeText(content)
-            Log.d("FileHelper", "File saved to internal storage: ${file.absolutePath}")
+            Log.d(LOG_TAG, "File saved to internal storage: ${file.absolutePath}")
         } catch (e: IOException) {
-            Log.e("FileHelper", "Failed to save file     to internal storage", e)
+            Log.e(LOG_TAG, "Failed to save file     to internal storage", e)
         }
     }
 
@@ -23,7 +23,7 @@ class FileHelper(private val context: Context) {
             val file = File(context.filesDir, fileName)
             file.readText()
         } catch (e: IOException) {
-            Log.e("FileHelper", "Failed to read file from internal storage", e)
+            Log.e(LOG_TAG, "Failed to read file from internal storage", e)
             null
         }
     }
@@ -38,12 +38,12 @@ class FileHelper(private val context: Context) {
 
                     val file = File(downloadsDir, fileName)
                     file.writeText(content)
-                    Log.d("FileHelper", "File saved to Downloads: ${file.absolutePath}")
+                    Log.d(LOG_TAG, "File saved to Downloads: ${file.absolutePath}")
                 } catch (e: IOException) {
-                    Log.e("FileHelper", "Failed to save file to external storage", e)
+                    Log.e(LOG_TAG, "Failed to save file to external storage", e)
                 }
             } else {
-                Log.e("FileHelper", "External storage is not available or not writable")
+                Log.e(LOG_TAG, "External storage is not available or not writable")
             }
     }
 
@@ -53,8 +53,12 @@ class FileHelper(private val context: Context) {
                 val file = File(downloadsDir, fileName)
                 file.readText()
             } catch (e: IOException) {
-                Log.e("FileHelper", "Failed to read file from external storage", e)
+            Log.e(LOG_TAG, "Failed to read file from external storage", e)
                 null
             }
+    }
+
+    private companion object {
+        const val LOG_TAG = "FileHelper"
     }
 }
